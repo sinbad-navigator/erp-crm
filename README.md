@@ -44,12 +44,3 @@ ErpCrm以SaaS方向实现多租户功能，动态创建数据库，独立数据�
 1. 首先建立主数据库：erp-crm-master，执行erp-crm-master.sql脚本
 2. 建立租户数据库（手动）：ec_KWEbSrWI,也可以不需要手动创建tenant数据库，注册的时候系统会自动创建。
 3. erp-crm-master的master_tenant表增加租户的数据库连接信息，erp-crm-master.sql里内置了两条记录。
-
-#  【认准一手视频课程加微信307570512】
-高价回收【借号】正版课程、支持换课换vip，帮回血
-
-
-
-
-
-
