@@ -1,0 +1,82 @@
+# 数据源配置
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    druid:
+      # 主库数据源
+      master:
+        url: jdbc:mysql://localhost:3306/erp-crm-master?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password: eoruvx
+      # 从库数据源
+      slave:
+        # 从数据源开关/默认关闭
+        enabled: false
+        url:
+        username:
+        password:
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      #如果为true（默认true），当应用向连接池申请连接，并且testOnBorrow为false时，
+      #连接池将会判断连接是否处于空闲状态，如果是，则验证这条连接是否可用。
+      #testWhileIdle的作用跟testOnBorrow是差不多的，都是在获取连接的时候测试连接的有效性，
+      #如果两者都为true，则testOnBorrow优先级高，则不会使用到testWhileIdle。
+      testWhileIdle: true
+      #.testOnBorrow能够确保我们每次都能获取到可用的连接，但是如果设置为true，
+      #则每次获取连接时候都要到数据库验证连接有效性，这在高并发的时候会造成性能下降，
+      #可以将testOnBorrow设置成false，testWhileIdle设置成true这样能获得比较好的性能。
+      testOnBorrow: false
+      #若testOnReturn属性设置为true，归还连接时，会进行检查，检查不通过，销毁。
+      testOnReturn: false
+      #配置WebStatFilter
+      #WebStatFilter用于采集web-jdbc关联监控的数据。经常需要排除一些不必要的url，比如.js,/jslib/等等。配置在init-param中
+      webStatFilter:
+        enabled: true
+      #StatViewServlet是一个标准的javax.servlet.http.HttpServlet
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码，http://localhost:8080/druid/index.html
+        login-username: ec
+        login-password: 123456
+      #有时候，系统中有些SQL执行很慢，我们希望使用日志记录下来，可以开启Druid的慢SQL记录功能
+      filter:
+        #stat：Druid内置提供一个StatFilter,用于统计监控信息。
+        stat:
+          enabled: true
+          # 开启慢sql监控，超过1s 就认为是慢sql，记录到日志中
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+          #wall：Druid防御SQL注入攻击的WallFilter就是通过Druid的SQL Parser分析。
+          #Druid提供的SQL Parser可以在JDBC层拦截SQL做相应处理，比如说分库分表、审计等。
+        wall:
+          config:
+            multi-statement-allow: true
+tenant:
+  database:
+    #mysql 用于连接数据库服务器以生成数据库,URL 不指定数据库
+    host: localhost
+    port: 3306
+    username: root
+    password: eoruvx
+  #生成数据库名称的前缀
+  prefix: ec_
+
